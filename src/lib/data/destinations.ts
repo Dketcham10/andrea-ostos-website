@@ -1,0 +1,182 @@
+import type { Destination } from "@/types";
+import { images, sized } from "@/lib/data/images";
+
+export const destinations: Destination[] = [
+  {
+    id: "los-cabos",
+    name: "Los Cabos",
+    country: "Mexico",
+    region: "Baja California Sur",
+    lat: 22.89,
+    lng: -109.91,
+    course: "Quivira Golf Club",
+    resort: "Four Seasons Resort Los Cabos",
+    image: sized.card("mexicoCoast"),
+    story:
+      "Home is where the desert meets the sea. Los Cabos is where my love for golf began — dramatic cliffs, ocean views, and the course that first made me dream of playing professionally.",
+    tips: [
+      "Play Quivira at sunset for unforgettable views",
+      "Explore San José del Cabo's art district",
+      "Try fresh ceviche at a beachside palapa",
+    ],
+    rating: 9.7,
+    type: "course",
+  },
+  {
+    id: "st-andrews",
+    name: "St Andrews",
+    country: "Scotland",
+    region: "Fife",
+    lat: 56.34,
+    lng: -2.8,
+    course: "Old Course at St Andrews",
+    image: sized.card("golfCourse"),
+    story:
+      "Walking the same fairways as legends. The birthplace of golf felt like coming home — wind, history, and pure magic on every hole.",
+    tips: [
+      "Book the lottery 48 hours in advance",
+      "Stay at Rusacks St Andrews for course views",
+      "Play the Jubilee Course for a modern challenge",
+    ],
+    rating: 9.8,
+    type: "course",
+  },
+  {
+    id: "pebble-beach",
+    name: "Pebble Beach",
+    country: "United States",
+    region: "California",
+    lat: 36.57,
+    lng: -121.95,
+    course: "Pebble Beach Golf Links",
+    image: sized.card("golfSwing"),
+    story:
+      "Cliffs, ocean spray, and the most cinematic back nine in golf. A bucket-list moment I'll never forget.",
+    tips: [
+      "Sunrise tee times for golden-hour photos",
+      "Reserve well in advance through resort",
+      "Don't skip the 7th and 18th photo ops",
+    ],
+    rating: 9.6,
+    type: "course",
+  },
+  {
+    id: "dubai",
+    name: "Dubai",
+    country: "United Arab Emirates",
+    region: "Dubai",
+    lat: 25.2,
+    lng: 55.27,
+    course: "Emirates Golf Club",
+    resort: "One&Only The Palm",
+    image: sized.card("dubai"),
+    story:
+      "Desert golf meets luxury hospitality. Partnered with Emirates and a leading resort group for an unforgettable campaign.",
+    tips: [
+      "Evening golf avoids peak heat",
+      "Book desert safari between rounds",
+      "Visit Dubai Creek for authentic dining",
+    ],
+    rating: 9.2,
+    type: "partnership",
+  },
+  {
+    id: "cape-town",
+    name: "Cape Town",
+    country: "South Africa",
+    region: "Western Cape",
+    lat: -33.92,
+    lng: 18.42,
+    course: "Fancourt Links",
+    image: sized.card("mountains"),
+    story:
+      "Table Mountain views from the tee box. South Africa delivered world-class golf and even better hospitality.",
+    tips: [
+      "Combine golf with a wine tour in Stellenbosch",
+      "Visit during shoulder season for value",
+      "Try biltong at the 19th hole",
+    ],
+    rating: 9.4,
+    type: "adventure",
+  },
+  {
+    id: "bali",
+    name: "Bali",
+    country: "Indonesia",
+    region: "Bali",
+    lat: -8.34,
+    lng: 115.09,
+    resort: "COMO Shambhala Estate",
+    course: "Bali National Golf Club",
+    image: sized.card("bali"),
+    story:
+      "Wellness, rice terraces, and a hidden gem of a golf course. The perfect blend of adventure and recovery.",
+    tips: [
+      "Morning yoga before your tee time",
+      "Hire a local guide for Ubud",
+      "Try nasi goreng at a warung",
+    ],
+    rating: 8.9,
+    type: "resort",
+  },
+  {
+    id: "tokyo",
+    name: "Tokyo",
+    country: "Japan",
+    region: "Kanto",
+    lat: 35.68,
+    lng: 139.69,
+    course: "Kasumigaseki Country Club",
+    image: sized.card("tokyo"),
+    story:
+      "Precision, tradition, and impeccable course conditions. Japan redefined my appreciation for the details.",
+    tips: [
+      "Respect course etiquette strictly",
+      "Explore Shibuya after sunset",
+      "Try omakase in Ginza",
+    ],
+    rating: 9.5,
+    type: "course",
+  },
+  {
+    id: "santorini",
+    name: "Santorini",
+    country: "Greece",
+    region: "Cyclades",
+    lat: 36.39,
+    lng: 25.46,
+    resort: "Canaves Oia Suites",
+    image: sized.card("santorini"),
+    story:
+      "No golf course — but the content goldmine. Partnered with a luxury hotel group for a travel campaign that broke engagement records.",
+    tips: [
+      "Sunset at Oia is non-negotiable",
+      "Book a catamaran for the caldera",
+      "Visit Akrotiri archaeological site",
+    ],
+    rating: 9.0,
+    type: "partnership",
+  },
+  {
+    id: "melbourne",
+    name: "Melbourne",
+    country: "Australia",
+    region: "Victoria",
+    lat: -37.81,
+    lng: 144.96,
+    course: "Royal Melbourne Golf Club",
+    image: sized.card("roadTrip"),
+    story:
+      "Sandbelt golf at its finest. Every hole is a masterclass in strategic design.",
+    tips: [
+      "Play the West Course if you can",
+      "Explore laneway coffee culture",
+      "Day trip to Great Ocean Road",
+    ],
+    rating: 9.7,
+    type: "course",
+  },
+];
+
+// Re-export hero image for travel page featured destination
+export const featuredTravelImage = images.mexicoCoast;
