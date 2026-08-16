@@ -19,6 +19,7 @@ export const partners: Partner[] = [
     category: "Airline",
     logo: "Emirates",
     logoImage: brandLogos.emirates,
+    logoImageCard: brandLogos.emiratesCard,
     logoBackground: "#c8102e",
     metric: "890K video views",
     description: "Global travel ambassador for luxury golf destinations.",

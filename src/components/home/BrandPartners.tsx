@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { partners } from "@/lib/data/content";
+import { withBasePath } from "@/lib/sitePath";
 
 export function BrandPartners() {
   const doubled = [...partners, ...partners];
@@ -28,7 +29,7 @@ export function BrandPartners() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={partner.logoImage}
+                  src={withBasePath(partner.logoImage)}
                   alt={`${partner.name} logo`}
                   className="max-h-10 w-full object-contain opacity-70"
                   loading="lazy"
@@ -56,7 +57,7 @@ export function BrandPartners() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={partner.logoImageCard ?? partner.logoImage}
+                  src={withBasePath(partner.logoImageCard ?? partner.logoImage)}
                   alt={`${partner.name} logo`}
                   className="max-h-24 w-full max-w-[85%] object-contain drop-shadow-sm"
                   loading="lazy"

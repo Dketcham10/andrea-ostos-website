@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { defaultFallback } from "@/lib/data/images";
+import { withBasePath } from "@/lib/sitePath";
 
 interface SiteImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc?: string;
@@ -16,13 +17,26 @@ export function SiteImage({
   onError,
   ...props
 }: SiteImageProps) {
-  const [currentSrc, setCurrentSrc] = useState(src || fallbackSrc);
+  const resolvedFallback = withBasePath(
+    typeof fallbackSrc === "string" ? fallbackSrc : defaultFallback
+  );
+  const resolvedSrc = withBasePath(
+    typeof src === "string" ? src || fallbackSrc : defaultFallback
+  );
+  const [currentSrc, setCurrentSrc] = useState(resolvedSrc);
   const [showPlaceholder, setShowPlaceholder] = useState(!src);
+
+  useEffect(() => {
+    const nextSrc =
+      typeof src === "string" ? src : typeof fallbackSrc === "string" ? fallbackSrc : defaultFallback;
+    setCurrentSrc(withBasePath(nextSrc));
+    setShowPlaceholder(typeof src !== "string" || !src);
+  }, [src, fallbackSrc]);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     onError?.(e);
-    if (currentSrc !== fallbackSrc) {
-      setCurrentSrc(fallbackSrc);
+    if (currentSrc !== resolvedFallback) {
+      setCurrentSrc(resolvedFallback);
       return;
     }
     setShowPlaceholder(true);

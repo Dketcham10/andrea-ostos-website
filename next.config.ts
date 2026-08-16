@@ -2,19 +2,21 @@ import type { NextConfig } from "next";
 import path from "path";
 import { fileURLToPath } from "url";
 
+/** Keep in sync with src/lib/sitePath.ts */
+const GITHUB_PAGES_BASE_PATH = "/andrea-ostos-website";
+
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const isGithubPages = process.env.GITHUB_PAGES === "true";
-const githubPagesBasePath = "/andrea-ostos-website";
 
 const nextConfig: NextConfig = {
   turbopack: {
     root: projectRoot,
   },
   output: isGithubPages ? "export" : undefined,
-  basePath: isGithubPages ? githubPagesBasePath : undefined,
-  assetPrefix: isGithubPages ? `${githubPagesBasePath}/` : undefined,
+  basePath: isGithubPages ? GITHUB_PAGES_BASE_PATH : undefined,
+  assetPrefix: isGithubPages ? `${GITHUB_PAGES_BASE_PATH}/` : undefined,
   env: {
-    NEXT_PUBLIC_BASE_PATH: isGithubPages ? githubPagesBasePath : "",
+    NEXT_PUBLIC_BASE_PATH: isGithubPages ? GITHUB_PAGES_BASE_PATH : "",
   },
   images: {
     unoptimized: isGithubPages,
