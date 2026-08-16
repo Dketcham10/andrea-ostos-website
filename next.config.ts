@@ -10,8 +10,8 @@ const nextConfig: NextConfig = {
     root: projectRoot,
   },
   output: isGithubPages ? "export" : undefined,
-  basePath: isGithubPages ? "/fairway-passport" : undefined,
-  assetPrefix: isGithubPages ? "/fairway-passport/" : undefined,
+  basePath: isGithubPages ? "/andrea-ostos-website" : undefined,
+  assetPrefix: isGithubPages ? "/andrea-ostos-website/" : undefined,
   images: {
     unoptimized: isGithubPages,
     remotePatterns: [

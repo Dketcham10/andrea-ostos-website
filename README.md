@@ -1,10 +1,14 @@
-# Fairway Passport
+# Andrea Ostos Website
 
-A premium personal brand website for a professional female golfer and global content creator.
+A premium personal brand website for professional golfer and content creator Andrea Ostos.
 
 Built with **Next.js 16**, **Tailwind CSS 4**, and **Framer Motion**.
 
-## Live Preview
+## Live Site
+
+https://dketcham10.github.io/andrea-ostos-website/
+
+## Local Preview
 
 ```bash
 npm run dev
