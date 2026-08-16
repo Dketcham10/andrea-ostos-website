@@ -1,16 +1,17 @@
 export const siteConfig = {
   name: "Andrea Ostos",
   nationality: "Mexico",
-  tagline: "Professional Golfer. Global Explorer. Trusted Brand Partner.",
+  tagline: "Professional Golfer. Trusted Brand Partner.",
   headline: "Golfing the World, One Adventure at a Time.",
   subheadline:
     "Mexican professional golfer, creator, traveler, and partner to the world's leading brands.",
   email: "hello@andreaostos.com",
   social: {
-    instagram: "https://instagram.com",
-    youtube: "https://youtube.com",
-    tiktok: "https://tiktok.com",
-    twitter: "https://twitter.com",
+    instagram: "https://instagram.com/andreaostos",
+    youtube: "https://youtube.com/@andreaostos",
+    tiktok: "https://tiktok.com/@andreaostos",
+    twitter: "https://x.com/andreaostos",
+    threads: "https://threads.net/@andreaostos",
   },
   stats: {
     followers: 847000,

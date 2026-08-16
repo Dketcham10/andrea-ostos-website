@@ -57,14 +57,6 @@ export function Navbar() {
             >
               {siteConfig.name}
             </span>
-            <span
-              className={cn(
-                "text-[10px] uppercase tracking-[0.25em] transition-colors",
-                scrolled || !isHome ? "text-green" : "text-sand"
-              )}
-            >
-              Fairway Passport · {siteConfig.nationality}
-            </span>
           </Link>
 
           <div className="hidden items-center gap-8 lg:flex">

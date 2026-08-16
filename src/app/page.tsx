@@ -52,7 +52,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl text-center">
           <SectionHeading
             eyebrow="Stay Connected"
-            title="The Fairway Passport"
+            title="Get Updates from Andrea"
             subtitle="Weekly travel recommendations, golf tips, behind-the-scenes stories, and tournament updates — delivered to your inbox."
             align="center"
           />

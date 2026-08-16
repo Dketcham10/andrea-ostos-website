@@ -3,20 +3,22 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/shared/Button";
-import { SiteImage } from "@/components/shared/SiteImage";
 import { siteConfig } from "@/lib/data/site";
-import { images } from "@/lib/data/images";
 
 export function Hero() {
   return (
     <section className="relative h-screen min-h-[700px] w-full overflow-hidden">
       <div className="absolute inset-0">
-        <SiteImage
-          src={images.golfHero}
-          alt="Andrea Ostos on the golf course"
-          className="h-full w-full object-cover animate-ken-burns"
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, #006847 0%, #006847 33.33%, #ffffff 33.33%, #ffffff 66.66%, #CE1126 66.66%, #CE1126 100%)",
+          }}
+          aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/60 via-charcoal/40 to-charcoal/80" />
+        <div className="absolute inset-0 bg-charcoal/45" />
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/50 to-charcoal/85" />
       </div>
 
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">

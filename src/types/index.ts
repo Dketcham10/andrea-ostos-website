@@ -38,7 +38,9 @@ export interface Partner {
   name: string;
   category: string;
   logo: string;
-  campaignImage: string;
+  logoImage: string;
+  logoImageCard?: string;
+  logoBackground?: string;
   metric?: string;
   description: string;
 }

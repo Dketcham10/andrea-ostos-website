@@ -26,7 +26,7 @@ export function Footer() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
               <h3 className="display-heading text-3xl md:text-4xl font-light mb-4">
-                The Fairway Passport
+                Stay in the Loop
               </h3>
               <p className="text-white/60 max-w-md leading-relaxed">
                 Weekly updates with travel recommendations, golf tips,

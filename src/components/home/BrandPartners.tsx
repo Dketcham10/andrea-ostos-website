@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SiteImage } from "@/components/shared/SiteImage";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { partners } from "@/lib/data/content";
 
@@ -21,15 +20,19 @@ export function BrandPartners() {
 
       <div className="relative mb-16">
         <div className="overflow-hidden">
-          <div className="marquee-track gap-16 px-8">
+          <div className="marquee-track gap-12 px-8">
             {doubled.map((partner, i) => (
               <div
                 key={`${partner.id}-${i}`}
-                className="flex items-center gap-3 shrink-0"
+                className="flex h-16 w-40 shrink-0 items-center justify-center rounded-xl bg-charcoal/[0.03] px-4"
               >
-                <span className="display-heading text-2xl md:text-3xl text-charcoal/20 font-light whitespace-nowrap">
-                  {partner.logo}
-                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={partner.logoImage}
+                  alt={`${partner.name} logo`}
+                  className="max-h-10 w-full object-contain opacity-70"
+                  loading="lazy"
+                />
               </div>
             ))}
           </div>
@@ -45,15 +48,22 @@ export function BrandPartners() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="group relative overflow-hidden rounded-2xl bg-charcoal aspect-[4/5] cursor-pointer"
+              className="group overflow-hidden rounded-2xl border border-charcoal/10 bg-white shadow-sm transition-shadow hover:shadow-xl"
             >
-              <SiteImage
-                src={partner.campaignImage}
-                alt={partner.name}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
+              <div
+                className="relative flex aspect-[4/3] items-center justify-center p-8 transition-transform duration-500 group-hover:scale-[1.02]"
+                style={{ backgroundColor: partner.logoBackground ?? "#f5f5f5" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={partner.logoImageCard ?? partner.logoImage}
+                  alt={`${partner.name} logo`}
+                  className="max-h-24 w-full max-w-[85%] object-contain drop-shadow-sm"
+                  loading="lazy"
+                />
+              </div>
+
+              <div className="border-t border-charcoal/10 bg-charcoal p-6">
                 <p className="text-xs uppercase tracking-wider text-gold mb-2">
                   {partner.category}
                 </p>
@@ -62,7 +72,7 @@ export function BrandPartners() {
                 </h3>
                 <p className="text-sm text-white/70 mb-3">{partner.description}</p>
                 {partner.metric && (
-                  <span className="inline-block rounded-full glass px-3 py-1 text-xs text-gold">
+                  <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs text-gold">
                     {partner.metric}
                   </span>
                 )}

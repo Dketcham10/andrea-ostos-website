@@ -20,9 +20,17 @@ export function img(
 export const images = {
   // Golf
   golfHero: img("photo-1596727147705-61a532a659bd", 1920, 1080),
-  golfSwing: img("photo-1558618666-fcd25c85cd64", 1200, 800),
-  golfCourse: img("photo-1551698618-1dfe5d97d256", 1200, 800),
+  golfSwing: img("photo-1763917379121-91130139aca0", 1200, 800),
+  golfCourse: img("photo-1596727147705-61a532a659bd", 1200, 800),
   golfWide: img("photo-1596727147705-61a532a659bd", 1200, 800),
+  golfBunker: img("photo-1698426002572-01af3df03c13", 1200, 800),
+  stAndrews: img("photo-1687291134396-304d837a1d65", 1200, 800),
+  desertGolf: img("photo-1671904942522-8e2a0dbb709f", 1200, 800),
+
+  // Social content thumbnails
+  capeTown: img("photo-1770553129625-9a0803c9e645", 1200, 800),
+  safari: img("photo-1559596657-7d68cf82bb18", 1200, 800),
+  morningCoffee: img("photo-1544787219-7f47ccb76574", 1200, 800),
 
   // Mexico & Americas
   mexicoCoast: img("photo-1518638150340-f706e86654de", 1200, 800),

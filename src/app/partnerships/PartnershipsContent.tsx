@@ -59,13 +59,13 @@ const testimonials = [
 
 const caseStudies = [
   {
-    brand: "Visit Scotland",
-    metric: "3.1M social reach",
-    result: "42% increase in golf tourism inquiries",
+    brand: "Four Seasons",
+    metric: "12% booking uplift",
+    result: "Resort partner across 8 properties worldwide",
     image: sized.card("golfCourse"),
   },
   {
-    brand: "Emirates x Fairway Passport",
+    brand: "Emirates x Andrea Ostos",
     metric: "890K video views",
     result: "15% uplift in premium route bookings",
     image: sized.card("airplane"),
@@ -118,7 +118,7 @@ export default function PartnershipsContent() {
               { value: formatNumber(siteConfig.stats.followers), label: "Followers" },
               { value: `${siteConfig.stats.engagement}%`, label: "Engagement" },
               { value: formatNumber(siteConfig.stats.reach), label: "Monthly Reach" },
-              { value: "22", label: "Brand Partners" },
+              { value: "20", label: "Brand Partners" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

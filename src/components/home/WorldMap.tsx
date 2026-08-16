@@ -1,23 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Star, X } from "lucide-react";
-import { SiteImage } from "@/components/shared/SiteImage";
+import { MapPin, X } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { destinations } from "@/lib/data/destinations";
-import type { Destination } from "@/types";
+import {
+  filterMapCourses,
+  getCourseStory,
+  mapStats,
+} from "@/lib/data/mapCourses";
+import {
+  countryPaths,
+  MAP_HEIGHT,
+  MAP_WIDTH,
+  projectCoordinates,
+  regionColors,
+} from "@/lib/map/worldGeography";
+import type { MapCourse, MapRegion } from "@/types/map";
+import { cn } from "@/lib/utils";
 
-function latLngToXY(lat: number, lng: number, width: number, height: number) {
-  const x = ((lng + 180) / 360) * width;
-  const y = ((90 - lat) / 180) * height;
-  return { x, y };
-}
+const filters: { id: MapRegion | "all"; label: string }[] = [
+  { id: "all", label: "All Courses" },
+  { id: "mexico", label: "Mexico" },
+  { id: "us", label: "United States" },
+  { id: "europe", label: "Europe" },
+];
 
 export function WorldMap() {
-  const [selected, setSelected] = useState<Destination | null>(null);
-  const mapW = 1000;
-  const mapH = 500;
+  const [selected, setSelected] = useState<MapCourse | null>(null);
+  const [hovered, setHovered] = useState<MapCourse | null>(null);
+  const [filter, setFilter] = useState<MapRegion | "all">("all");
+
+  const visible = useMemo(() => filterMapCourses(filter), [filter]);
+
+  const markers = useMemo(
+    () =>
+      visible.flatMap((course) => {
+        const point = projectCoordinates(course.lat, course.lng);
+        if (!point) return [];
+        return [{ ...course, ...point }];
+      }),
+    [visible]
+  );
 
   return (
     <section id="world-map" className="section-padding bg-charcoal overflow-hidden">
@@ -25,132 +49,144 @@ export function WorldMap() {
         <SectionHeading
           eyebrow="Global Adventures"
           title="The World Is My Fairway"
-          subtitle="Explore countries visited, courses played, resorts reviewed, and travel partnerships around the globe."
+          subtitle={`${mapStats.total} courses played across Mexico, the United States, and Europe — click any pin to explore.`}
           light
           align="center"
         />
 
-        <div className="relative mx-auto max-w-5xl">
-          <div className="relative aspect-[2/1] rounded-2xl overflow-hidden border border-white/10">
+        <div className="mb-6 flex flex-wrap justify-center gap-2">
+          {filters.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => {
+                setFilter(f.id);
+                setSelected(null);
+              }}
+              className={cn(
+                "rounded-full px-5 py-2 text-sm font-medium transition-all",
+                filter === f.id
+                  ? "bg-gold text-charcoal"
+                  : "bg-white/10 text-white/70 hover:bg-white/15 hover:text-white"
+              )}
+            >
+              {f.label}
+              <span className="ml-1.5 opacity-70">
+                (
+                {f.id === "all"
+                  ? mapStats.total
+                  : mapStats[f.id as MapRegion]}
+                )
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div className="relative mx-auto max-w-6xl">
+          <div className="relative aspect-[2/1] rounded-2xl overflow-hidden border border-white/10 bg-[#08111f] shadow-2xl">
             <svg
-              viewBox={`0 0 ${mapW} ${mapH}`}
+              viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
               className="h-full w-full"
               preserveAspectRatio="xMidYMid meet"
+              role="img"
+              aria-label="World map showing golf courses played by Andrea Ostos"
             >
               <defs>
-                <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#2d6a4f" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#1a1a1a" stopOpacity="0" />
+                <radialGradient id="mapOceanGlow" cx="50%" cy="48%" r="70%">
+                  <stop offset="0%" stopColor="#123047" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#08111f" stopOpacity="1" />
                 </radialGradient>
+                <filter id="markerGlow">
+                  <feGaussianBlur stdDeviation="2" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
-              <rect width={mapW} height={mapH} fill="#1a1a1a" />
-              <rect width={mapW} height={mapH} fill="url(#mapGlow)" />
 
-              {/* Simplified continent shapes */}
-              <path
-                d="M150,120 Q200,80 280,100 Q350,90 400,130 Q420,180 380,220 Q300,250 220,230 Q160,200 150,120"
-                fill="#2d2d2d"
-                opacity="0.8"
-              />
-              <path
-                d="M420,100 Q500,70 580,90 Q650,80 720,120 Q780,150 800,200 Q780,280 700,300 Q600,320 500,280 Q420,240 420,100"
-                fill="#2d2d2d"
-                opacity="0.8"
-              />
-              <path
-                d="M480,280 Q540,260 600,290 Q650,320 680,380 Q660,440 580,450 Q500,440 480,380 Q470,330 480,280"
-                fill="#2d2d2d"
-                opacity="0.8"
-              />
-              <path
-                d="M720,120 Q780,100 850,130 Q920,160 940,220 Q900,280 820,290 Q740,270 720,200 Q710,160 720,120"
-                fill="#2d2d2d"
-                opacity="0.8"
-              />
-              <path
-                d="M820,320 Q870,300 920,340 Q940,400 900,440 Q840,460 800,420 Q790,370 820,320"
-                fill="#2d2d2d"
-                opacity="0.8"
-              />
+              <rect width={MAP_WIDTH} height={MAP_HEIGHT} fill="url(#mapOceanGlow)" />
 
-              {/* Grid lines */}
-              {[200, 300, 400].map((y) => (
-                <line
-                  key={y}
-                  x1="0"
-                  y1={y}
-                  x2={mapW}
-                  y2={y}
-                  stroke="#ffffff"
-                  strokeOpacity="0.03"
-                />
-              ))}
-              {[250, 500, 750].map((x) => (
-                <line
-                  key={x}
-                  x1={x}
-                  y1="0"
-                  x2={x}
-                  y2={mapH}
-                  stroke="#ffffff"
-                  strokeOpacity="0.03"
-                />
-              ))}
+              <g>
+                {countryPaths.map((country) => (
+                  <path
+                    key={country.id}
+                    d={country.d}
+                    fill="#2b3444"
+                    stroke="#465066"
+                    strokeWidth={0.35}
+                  />
+                ))}
+              </g>
 
-              {destinations.map((dest, i) => {
-                const { x, y } = latLngToXY(dest.lat, dest.lng, mapW, mapH);
-                const isSelected = selected?.id === dest.id;
+              {markers.map((marker) => {
+                const { x, y, ...course } = marker;
+                const isSelected = selected?.id === course.id;
+                const isHovered = hovered?.id === course.id;
+                const color = regionColors[course.region];
+
                 return (
-                  <g key={dest.id}>
-                    {isSelected && (
+                  <g key={course.id}>
+                    {(isSelected || isHovered) && (
                       <circle
                         cx={x}
                         cy={y}
-                        r="20"
-                        fill="#c9a962"
-                        opacity="0.2"
-                        className="animate-pulse"
+                        r={isSelected ? 12 : 9}
+                        fill={color}
+                        opacity="0.28"
+                        className={isSelected ? "animate-pulse" : undefined}
                       />
                     )}
                     <circle
                       cx={x}
                       cy={y}
-                      r={isSelected ? 8 : 6}
-                      fill={isSelected ? "#c9a962" : "#2d6a4f"}
+                      r={isSelected ? 4.5 : isHovered ? 4 : 2.75}
+                      fill={color}
                       stroke="#fafafa"
-                      strokeWidth="2"
-                      className="cursor-pointer transition-all hover:fill-gold"
-                      onClick={() => setSelected(dest)}
+                      strokeWidth={isSelected ? 1.5 : 1}
+                      strokeOpacity={0.95}
+                      className="cursor-pointer"
+                      filter={isSelected ? "url(#markerGlow)" : undefined}
+                      onMouseEnter={() => setHovered(course)}
+                      onMouseLeave={() => setHovered(null)}
+                      onClick={() => setSelected(course)}
                     />
-                    <text
-                      x={x}
-                      y={y - 14}
-                      textAnchor="middle"
-                      fill="#fafafa"
-                      fontSize="10"
-                      opacity={isSelected ? 1 : 0}
-                      className="pointer-events-none transition-opacity"
-                    >
-                      {dest.name}
-                    </text>
                   </g>
                 );
               })}
             </svg>
 
-            <div className="absolute bottom-4 left-4 flex gap-4 text-xs text-white/50">
+            <AnimatePresence>
+              {hovered && !selected && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="pointer-events-none absolute top-4 left-4 rounded-lg glass px-3 py-2 text-xs text-white max-w-xs"
+                >
+                  <p className="font-medium">{hovered.name}</p>
+                  <p className="text-white/60">{hovered.city}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="absolute bottom-4 left-4 flex flex-wrap gap-4 text-xs text-white/50">
               <span className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-green" />
-                Course
+                <span className="h-2 w-2 rounded-full bg-[#c9a962]" />
+                Mexico ({mapStats.mexico})
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-gold" />
-                Partnership
+                <span className="h-2 w-2 rounded-full bg-[#2d6a4f]" />
+                United States ({mapStats.us})
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-sand" />
-                Resort
+                <span className="h-2 w-2 rounded-full bg-[#d4c4a8]" />
+                Europe ({mapStats.europe})
               </span>
+            </div>
+
+            <div className="absolute bottom-4 right-4 text-xs text-white/40">
+              Showing {visible.length} of {mapStats.total} courses
             </div>
           </div>
 
@@ -160,13 +196,14 @@ export function WorldMap() {
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                className="absolute top-4 right-4 w-80 max-w-[calc(100%-2rem)] rounded-2xl glass overflow-hidden shadow-2xl"
+                className="absolute top-4 right-4 w-80 max-w-[calc(100%-2rem)] rounded-2xl glass overflow-hidden shadow-2xl z-10"
               >
-                <div className="relative h-36">
-                  <SiteImage
-                    src={selected.image}
-                    alt={selected.name}
-                    className="h-full w-full object-cover"
+                <div className="relative h-28 bg-gradient-to-br from-green-deep to-charcoal flex items-end p-5">
+                  <div
+                    className="absolute inset-0 opacity-30"
+                    style={{
+                      backgroundImage: `radial-gradient(circle at 30% 70%, ${regionColors[selected.region]}, transparent)`,
+                    }}
                   />
                   <button
                     type="button"
@@ -175,33 +212,23 @@ export function WorldMap() {
                   >
                     <X size={14} />
                   </button>
+                  <div className="relative">
+                    <p className="text-[10px] uppercase tracking-wider text-gold">
+                      {selected.country}
+                    </p>
+                    <h3 className="display-heading text-xl text-white leading-tight">
+                      {selected.name}
+                    </h3>
+                  </div>
                 </div>
                 <div className="p-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="display-heading text-xl text-white">
-                        {selected.name}
-                      </h3>
-                      <p className="text-sm text-white/60 flex items-center gap-1 mt-1">
-                        <MapPin size={12} />
-                        {selected.country}
-                      </p>
-                    </div>
-                    {selected.rating && (
-                      <div className="flex items-center gap-1 text-gold text-sm">
-                        <Star size={14} fill="currentColor" />
-                        {selected.rating}
-                      </div>
-                    )}
-                  </div>
-                  <p className="mt-3 text-sm text-white/70 leading-relaxed line-clamp-3">
-                    {selected.story}
+                  <p className="text-sm text-white/60 flex items-center gap-1 mb-3">
+                    <MapPin size={12} />
+                    {selected.city}
                   </p>
-                  {selected.course && (
-                    <p className="mt-2 text-xs text-green-light">
-                      ⛳ {selected.course}
-                    </p>
-                  )}
+                  <p className="text-sm text-white/70 leading-relaxed">
+                    {getCourseStory(selected)}
+                  </p>
                 </div>
               </motion.div>
             )}
@@ -210,10 +237,10 @@ export function WorldMap() {
 
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
-            { value: "34", label: "Countries" },
-            { value: "127", label: "Courses Played" },
-            { value: "48", label: "Resorts Visited" },
-            { value: "22", label: "Brand Partners" },
+            { value: String(mapStats.mexico), label: "Courses in Mexico" },
+            { value: String(mapStats.us), label: "Courses in the US" },
+            { value: String(mapStats.europe), label: "Courses in Europe" },
+            { value: String(mapStats.total), label: "Total Courses Played" },
           ].map((stat) => (
             <div key={stat.label}>
               <p className="display-heading text-4xl text-gold font-light">
